@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useInView } from '../../hooks/useInView';
-import Hero from '../public/Hero.mp4';
+import Hero from '../public/Hero.webm';
 import TypingEffect from './TypingEffect';
 
 const HeroSection = () => {
