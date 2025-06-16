@@ -4,17 +4,17 @@ import { useInView } from '../../hooks/useInView';
 const tweets = [
   {
     id: 1,
-    content: "¡Gracias a todos por el apoyo en mi último lanzamiento! 🚀🎶 #MeDiCuenta",
+    content: "¡Gracias a todos por el apoyo en la inauguracion de Navegando TV! 🚀",
     date: "2025-05-20"
   },
   {
     id: 2,
-    content: "Estuve trabajando en nuevas canciones, pronto habrá sorpresas... 👀🔥",
+    content: "Genios los del l'incanto, pronto habrá sorpresas... 👀🔥",
     date: "2025-05-18"
   },
   {
     id: 3,
-    content: "Gracias por acompañarme hoy en Box Garden, cada canción es parte de mi alma. ❤️🎤",
+    content: "Gracias por acompañarnos hoy en Paseo del este❤️",
     date: "2025-05-15"
   },
 ];
@@ -44,7 +44,7 @@ const TwitterSection = () => {
               inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            Mira aquí anuncios de mis próximos lanzamientos y eventos.
+            Mira aquí anuncios de nuestras próximas novedades y eventos.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ const TwitterSection = () => {
           >
             <HeartsAnimation containerRef={tweetsRef} />
             <h3 className="text-2xl font-semibold mb-6 text-white text-center md:text-left">
-              Últimos Tweets
+              Últimos Anuncios
             </h3>
             <ul className="space-y-5">
               {tweets.map(tweet => (
@@ -77,21 +77,21 @@ const TwitterSection = () => {
             style={{ minHeight: '400px' }}
           >
             <iframe
-              className="w-full flex-grow rounded-md"
-              src="https://www.youtube.com/embed/P1F1ZPums30"
-              title="YouTube Short 1"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-            <iframe
-              className="w-full flex-grow rounded-md"
-              src="https://www.youtube.com/embed/ikclWltlRcY"
-              title="YouTube Short 2"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+          src="https://www.youtube.com/embed/Vlalce7RY78?si=lzFRo4sFvx_07OnV"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="w-full h-full rounded-xl shadow-lg"
+          referrerPolicy="strict-origin-when-cross-origin"
+        ></iframe>
+        <iframe
+          src="https://www.youtube.com/embed/bu5YsOmr9P8?si=ORM8CBdO6F1XYVNg"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="w-full h-full rounded-xl shadow-lg"
+          referrerPolicy="strict-origin-when-cross-origin"
+        ></iframe>
           </div>
 
         </div>
@@ -118,7 +118,7 @@ const HeartsAnimation = ({ containerRef }) => {
             pointerEvents: 'none',
           }}
         >
-          💜
+          ❤️
         </span>
       ))}
 

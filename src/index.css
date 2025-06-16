@@ -34,11 +34,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-purple-800 rounded-full;
+  @apply bg-amber-200 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-purple-700;
+  @apply bg-amber-200;
 }
 
 @keyframes fadeIn {

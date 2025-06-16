@@ -3,6 +3,16 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      keyframes: {
+        slide: {
+          '0%':   { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' }
+        }
+      },
+      animation: {
+        slide: 'slide 5s linear infinite',
+        'bounce-slow': 'bounce 2s infinite',
+      },
       colors: {
         purple: {
           400: '#a78bfa',
@@ -19,9 +29,6 @@ export default {
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
-      },
-      animation: {
-        'bounce-slow': 'bounce 2s infinite',
       },
     },
   },

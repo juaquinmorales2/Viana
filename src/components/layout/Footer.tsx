@@ -1,20 +1,20 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
 import vos from "../sections/vos.jpg";
-import logoViana from '../sections/logoViana.png';
+import logo from '../sections/channels4_banner-removebg-preview.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-black/90 text-gray-300 py-12 border-t border-purple-900/40">
+    <footer className="bg-black/90 text-gray-300 py-12 border-t">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
 
           <div>
             <div className="flex items-center gap-2 text-xl font-bold mb-4">
-              <img src={logoViana} className="h-20" alt="Logo Viana" />
+              <img src={logo} className="h-14" alt="Logo Viana" />
             </div>
             <p className="text-sm text-gray-400 max-w-xs">
-              Creando experiencias musicales únicas que combinan pensamientos y emociones personales plasmadas en papel.
+              Lo nuestro no es llegar, es seguir navegando. Subite y vení a disfrutar del viaje.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ const Footer = () => {
             <div className="flex items-center gap-2 text-sm mt-4 justify-center md:justify-start">
               <Mail size={16} />
               <a href="mailto:contacto@carlosvega.com" className="hover:text-purple-400 transition-colors">
-                beatsviana@gmail.com
+                navegandostream@gmail.com
               </a>
             </div>
           </div>

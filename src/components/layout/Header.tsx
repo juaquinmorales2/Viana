@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import logoViana from '../sections/logoViana.png';
+import logo from '../sections/channels4_banner-removebg-preview.png';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollPercentage, setScrollPercentage] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setScrolled(scrollY > 50);
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 50);
+      setScrollPercentage(Math.min(currentScrollY / 2, 100));
 
-      const percentage = Math.min(scrollY / 2, 100);
-      setScrollPercentage(percentage);
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setShowHeader(false); // scroll down
+      } else {
+        setShowHeader(true); // scroll up
+      }
+
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const menuItems = [
     { name: 'Inicio', href: '#hero' },
-    { name: 'Música', href: '#musica' },
-    { name: 'Sobre Mí', href: '#sobre' },
-    { name: 'Galería', href: '#galeria' },
+    { name: 'Programas', href: '#Programas' },
+    { name: 'Sobre Nosotros', href: '#sobre' },
+    { name: 'Shorts', href: '#galeria' },
     { name: 'Avisos', href: '#aviso' },
     { name: 'Contacto', href: '#contacto' },
   ];
@@ -33,25 +41,28 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-500 ${isOpen ? 'bg-black' : ''}`}
+      className={`fixed w-full z-50 transition-transform duration-700 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+        showHeader ? 'translate-y-0' : '-translate-y-full'
+      } ${isOpen ? 'bg-black' : ''}`}
       style={{
         backgroundColor: isOpen ? 'black' : bgColor,
         padding: isOpen ? '1rem 0' : scrolled ? '0.75rem 0' : '1rem 0',
         boxShadow: scrolled ? '0 4px 6px rgba(0, 0, 0, 0.1)' : 'none',
+        willChange: 'transform',
       }}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center ">
+      <div className="container mx-auto lg:pl-16 px-6 flex justify-between items-center">
         <a href="#" className="flex items-center gap-2">
-          <img src={logoViana} alt="Logo" className="h-14 w-14 md:h-20 md:w-20 ml-2" />
+          <img src={logo} alt="Logo" className="h-7 w-24 md:h-8 mb-2 md:mt-3 mt-5 md:w-40 ml-2" />
         </a>
 
-        <nav className="hidden md:block mr-5">
+        <nav className="hidden lg:block mr-5">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className="text-sm font-bold uppercase tracking-wider text-purple-400 hover:text-white transition"
+                  className="text-xs font-bold uppercase tracking-wider text-amber-200 hover:text-white transition"
                 >
                   {item.name}
                 </a>
@@ -62,7 +73,7 @@ const Header = () => {
 
         {!isOpen && (
           <button
-            className="md:hidden text-white z-50"
+            className="lg:hidden text-white z-50"
             onClick={() => setIsOpen(true)}
             aria-label="Toggle Menu"
           >
@@ -72,19 +83,19 @@ const Header = () => {
       </div>
 
       <div
-        className={`md:hidden fixed inset-0 bg-black z-40 transition-all duration-500 ease-in-out transform ${
+        className={`lg:hidden fixed inset-0 bg-black z-40 transition-all duration-500 ease-in-out transform ${
           isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
         }`}
       >
         <div className="flex justify-between items-center px-4 pt-6 pb-4">
-          <img src={logoViana} alt="Logo" className="h-14 w-14" />
+          <img src={logo} alt="Logo" className="h-7 w-24 ml-2 mt-1" />
           <button onClick={() => setIsOpen(false)} className="text-white" aria-label="Close Menu">
             <X size={28} />
           </button>
         </div>
 
         {isOpen && (
-          <div className="md:hidden max-h-[calc(100vh-80px)] overflow-y-auto flex flex-col justify-center pt-4">
+          <div className="lg:hidden max-h-[calc(100vh-80px)] overflow-y-auto flex flex-col justify-center pt-4">
             <ul className="flex flex-col items-center space-y-6 text-center px-4">
               {menuItems.map((item) => (
                 <li key={item.name} className="w-full">

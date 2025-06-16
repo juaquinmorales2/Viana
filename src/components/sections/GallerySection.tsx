@@ -1,119 +1,109 @@
-import React, { useRef, useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useRef } from 'react';
 import { useInView } from '../../hooks/useInView';
-import IMG_7536_TIF from './IMG_7536_TIF.jpg';
-import IMG_7414 from './IMG_7414.jpg';
-import _MG_7187 from './_MG_7187.jpg';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const images = [
-  {
-    id: 1,
-    src: _MG_7187,
-    alt: "Concierto en vivo"
-  },
-  {
-    id: 2,
-    src: IMG_7414,
-    alt: "Sesión de estudio"
-  },
-  {
-    id: 3,
-    src: IMG_7536_TIF,
-    alt: "Tocando guitarra"
-  }
+const shorts = [
+  { id: 1, url: "https://www.youtube.com/embed/tF5IGhV_O2o?rel=0&controls=0", title: "Tocando en vivo" },
+  { id: 2, url: "https://www.youtube.com/embed/_m-vPiaWdPk?rel=0&controls=0", title: "Improvisación musical" },
+  { id: 3, url: "https://www.youtube.com/embed/1bSccspJPfk?rel=0&controls=0", title: "Detrás de cámaras" },
+  { id: 4, url: "https://www.youtube.com/embed/6sB2gkUYbfw?rel=0&controls=0", title: "Backstage exclusivo" },
+  { id: 5, url: "https://www.youtube.com/embed/EDJegIFTbjs?rel=0&controls=0", title: "Sesión creativa" }
 ];
 
-const GallerySection = () => {
+const ShortsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { inView } = useInView(sectionRef, { threshold: 0.1 });
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  
+
+  const scroll = (dir: 'left' | 'right') => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const visibles = window.innerWidth >= 1024
+      ? 3
+      : window.innerWidth >= 640
+        ? 2
+        : 1;
+    const scrollAmount = container.clientWidth / visibles;
+    container.scrollBy({ left: dir === 'right' ? scrollAmount : -scrollAmount, behavior: 'smooth' });
+  };
+
   return (
-    <section 
-      id="galeria" 
+    <section
+      id="shorts"
       ref={sectionRef}
-      className="py-20 md:pt-20 bg-gradient-to-b from-black to-gray-900"
+      className="py-20 bg-gradient-to-b from-black to-gray-900 overflow-hidden pt-32"
     >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 
-            className={`text-3xl md:text-4xl font-bold md:pt-20 mb-4 transition-all duration-700 ${
-              inView ? 'opacity-100 transform-none' : 'opacity-0 translate-y-10'
-            }`}
+        <h2
+          className={`text-3xl md:text-4xl font-bold mb-12 text-center transition-all duration-700 ${
+            inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
+          SHORTS DESTACADOS
+        </h2>
+
+        {/* Wrapper sin overflow-hidden para que botones no se recorten */}
+        <div className="relative mx-auto w-[250px] sm:w-[624px] lg:w-[936px]">
+          {/* Botón izquierdo (ya no se recorta) */}
+          <button
+            onClick={() => scroll('left')}
+            className="absolute top-1/2 -translate-y-1/2 -left-12 sm:-left-8 z-10 p-2 bg-white/30 hover:bg-white/50 rounded-full"
           >
-            GALERÍA
-          </h2>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((image, index) => (
-            <div 
-              key={image.id}
-              className={`overflow-hidden rounded-lg shadow-lg cursor-pointer transition-all duration-700 delay-${index * 150} ${
-                inView ? 'opacity-100 transform-none' : 'opacity-0 translate-y-10'
-              }`}
-              onClick={() => setSelectedImage(index)}
-            >
-              <div className="relative group">
-                <img 
-                  src={image.src} 
-                  alt={image.alt} 
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white text-sm font-medium px-3 py-1 bg-black/60 rounded-full">
-                    Ver imagen
-                  </span>
+            <ChevronLeft size={24} color="black" />
+          </button>
+
+          {/* Contenedor de scroll con overflow-hidden */}
+          <div
+            ref={containerRef}
+            className="flex gap-6 overflow-x-hidden scroll-smooth"
+          >
+            {shorts.map(short => (
+              <div
+                key={short.id}
+                className="w-[250px] sm:w-[312px] lg:w-[312px] flex-shrink-0 rounded-xl overflow-hidden shadow-lg bg-black"
+              >
+                <div className="aspect-[9/16] w-full">
+                  <iframe
+                    className="w-full h-full"
+                    src={short.url}
+                    title={short.title}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+                <div className="text-white text-center px-2 py-2 text-sm font-medium bg-black">
+                  {short.title}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        
-        {selectedImage !== null && (
-          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-            <button 
-              className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-              onClick={() => setSelectedImage(null)}
-            >
-              <X size={32} />
-            </button>
-            
-            <img 
-              src={images[selectedImage].src} 
-              alt={images[selectedImage].alt} 
-              className="max-h-[80vh] max-w-full object-contain"
-            />
+            ))}
           </div>
-        )}
-        
-        <div 
-  className={`mt-12 text-center transition-all duration-700 delay-600 ${
-    inView ? 'opacity-100 transform-none' : 'opacity-0 translate-y-10'
-  }`}
->
-  <a 
-    href="https://www.instagram.com/juaanvianaa/?__pwa=1" 
-    target="_blank"
-    rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-500 text-white font-medium transition-all duration-300 hover:brightness-125"
-  >
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      fill="currentColor" 
-      viewBox="0 0 24 24" 
-      width="20" 
-      height="20"
-    >
-      <path d="M7.75 2A5.75 5.75 0 0 0 2 7.75v8.5A5.75 5.75 0 0 0 7.75 22h8.5A5.75 5.75 0 0 0 22 16.25v-8.5A5.75 5.75 0 0 0 16.25 2h-8.5Zm0 1.5h8.5A4.25 4.25 0 0 1 20.5 7.75v8.5a4.25 4.25 0 0 1-4.25 4.25h-8.5A4.25 4.25 0 0 1 3.5 16.25v-8.5A4.25 4.25 0 0 1 7.75 3.5Zm8.75 2a.75.75 0 0 0 0 1.5h.01a.75.75 0 0 0 0-1.5h-.01Zm-4.5 1.5a5.25 5.25 0 1 0 0 10.5a5.25 5.25 0 0 0 0-10.5Zm0 1.5a3.75 3.75 0 1 1 0 7.5a3.75 3.75 0 0 1 0-7.5Z"/>
-    </svg>
-    Ver más en Instagram
-  </a>
-</div>
 
+          {/* Botón derecho */}
+          <button
+            onClick={() => scroll('right')}
+            className="absolute top-1/2 -translate-y-1/2 -right-12 sm:-right-8 z-10 p-2 bg-white/30 hover:bg-white/50 rounded-full"
+          >
+            <ChevronRight size={24} color="black" />
+          </button>
+        </div>
+
+        <div className="mt-12 text-center">
+          <a
+            href="https://www.youtube.com/@juaanvianaa/shorts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-red-600 text-white font-medium transition-all duration-300 hover:brightness-125"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="white">
+              <path d="M23.498 6.186a2.997 2.997 0 0 0-2.11-2.117C19.67 3.5 12 3.5 12 3.5s-7.67 0-9.388.569A2.997 2.997 0 0 0 .5 6.186 31.768 31.768 0 0 0 0 12a31.768 31.768 0 0 0 .5 5.814 2.997 2.997 0 0 0 2.112 2.117C4.33 20.5 12 20.5 12 20.5s7.67 0 9.388-.569a2.997 2.997 0 0 0 2.11-2.117A31.768 31.768 0 0 0 24 12a31.768 31.768 0 0 0-.502-5.814zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
+            </svg>
+            Ver más en YouTube
+          </a>
+        </div>
       </div>
     </section>
   );
 };
 
-export default GallerySection;
+export default ShortsSection;
